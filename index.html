@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue JS</title>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <div class="container">
+                <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbar9">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar9">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <i class="fa fa-2x fa-shopping-cart" @click="viewCart()"></i><span class="badge badge-light align-top">{{cart.length}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container"  v-show="showItems">
+            <div class="card bg-info">
+                <div class="card-body">
+                    <h5 class="card-title text-center font-weight-bold text-light">Items List</h5>
+                    <ul class="list-group" v-for="item in items">
+                        <li class="list-group-item">{{item.name}} - <i class="badge badge-primary">{{item.price}} ¥</i>
+                            <button class="btn btn-success float-right"  @click="addToCart(item)">Add Item</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container" v-show="showCart">
+            <div class="row">
+                <div class="col-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-header">
+                            Discount Codes
+                        </div>
+                        <ul class="list-group list-group-flush" v-for="Dcode in codes">
+                            <li class="list-group-item text-dark">{{Dcode.code}} -  {{Dcode.info}} </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card bg-info">
+                        <div class="card-body">
+                            <h5 class="card-title text-center font-weight-bold text-light">My Cart</h5>
+                            <ul class="list-group" v-for="(item , index) in cart">
+                                <li class="list-group-item">{{item.name}} - <i class="badge badge-primary">{{item.price}} ¥</i>
+                                    <button class="btn btn-danger float-right" @click="removeItem(item)">Remove Item</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-header text-center font-weight-bold">
+                            Apply Discount Code
+                        </div>
+                        <div class="card-body">
+                            <h6 class="h6 text-info">Total : {{total}}¥</h6>
+                            <input type="text" class="form-control" v-model="code" v-show="disCountApplied">
+                            <br>
+                            
+                            <div class="alert alert-success" v-show="codeApplied">{{codeSuccess}}</div>
+                            <div class="alert alert-danger" v-show="isError">{{codeErr}}</div>
+                            <button class="btn btn-outline-success  btn-md btn-block" @click="applyCoupen(total , code)" v-show="disCountApplied">Apply Code</button>
+                            <div class="row" v-show="payGateway">
+                                <div class="container text-center">
+                                <button class="btn btn-success btn-md btn-block">Pay Now</button>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
